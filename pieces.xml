@@ -1,0 +1,105 @@
+<main>
+    <piece name="Pawn">
+        <starts x = "1" y = "0"/>
+        <starts x = "1" y = "1"/>
+        <starts x = "1" y = "2"/>
+        <starts x = "1" y = "3"/>
+        <starts x = "1" y = "4"/>
+        <starts x = "1" y = "5"/>
+        <starts x = "1" y = "6"/>
+        <starts x = "1" y = "7"/>
+        <moves fMove = "arr[0] = x + 1; arr[1] = y + 1; arr[2] = x - 1; arr[3] = " fCapture ="1" fEmptyReq ="1"/>
+        <moves fMove = "for (i = 0; i < board; i++) {arr[i] = x + i; arr[]} " fCapture ="1" fEmptyReq ="1"/>
+    </piece>
+    <piece name="Rook">
+        <starts x="0" y="0"/>
+        <starts x="7" y="0"/>
+        <moves>
+            <movesCords x="1" y ="1"/>
+            <captureCords x="1" y ="1"/>
+            <reqEmptyCords x="1" y ="1"/>
+        </moves>
+        <moves>
+            <movesCords x="1" y ="1"/>
+            <captureCords x="1" y ="1"/>
+            <reqEmptyCords x="1" y ="1"/>
+        </moves>
+        <moves>
+            <movesCords x="1" y ="1"/>
+            <captureCords x="1" y ="1"/>
+            <reqEmptyCords x="1" y ="1"/>
+        </moves>
+    </piece>
+    <piece name="Knight">
+        <starts x="1" y="0"/>
+        <starts x="6" y="0"/>
+        <moves>
+            <funcMove>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcMove>
+            <funcCapt>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcCapt>
+            <funcNoOc>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcNoOc>
+        </moves>
+    </piece>
+    <piece name="Bishop">
+        <starts x="1" y="0"/>
+        <starts x="6" y="0"/>
+        <moves>
+            <funcMove>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcMove>
+            <funcCapt>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcCapt>
+            <funcNoOc>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcNoOc>
+        </moves>
+    </piece>
+    <piece name="King">
+        <starts x="1" y="0"/>
+        <starts x="6" y="0"/>
+        <moves>
+            <funcMove>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcMove>
+            <funcCapt>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcCapt>
+            <funcNoOc>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcNoOc>
+        </moves>
+    </piece>
+    <piece name="Queen">
+        <starts x="1" y="0"/>
+        <starts x="6" y="0"/>
+        <moves>
+            <funcMove>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcMove>
+            <funcCapt>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcCapt>
+            <funcNoOc>
+                <direction>diagonal</direction>
+                <x_bounds x="0" y ="7"/>
+            </funcNoOc>
+        </moves>
+    </piece>
+</main>

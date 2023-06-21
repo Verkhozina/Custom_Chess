@@ -1,0 +1,29 @@
+<main>
+
+    <complexType name="pairIntType">
+        <attribute name="x" type="int"/>
+        <attribute name="y" type="int"/>
+    </complexType>
+
+    <complexType name="moveType">
+        <attribute name="fMove" minOccurs="0" maxOccurs="unbounded" type="string"/>
+        <attribute name="fCapture" minOccurs="0" maxOccurs="unbounded" type="string"/>
+        <attribute name="fEmptyReq" minOccurs="0" maxOccurs="unbounded" type="string"/>
+    </complexType>
+
+    <complexType name="pieceType">
+        <attribute name="name" type="string"/>
+        <attribute name="starts" minOccurs="1" maxOccurs="unbounded" type="pairIntType"/>
+        <attribute name="moves" minOccurs="1" maxOccurs="unbounded" type="moveType"/>
+    </complexType>
+
+    <element name="pieces">
+        <complexType>
+            <sequence>
+                <element name="piece"
+                         type="pieceType"
+                         minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+</main>
