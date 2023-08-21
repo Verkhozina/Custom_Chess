@@ -48,7 +48,7 @@ public class GameEngine {
             board.goalPrev = goal;
             return true;
         }
-        moves = possibleSpecMoves(strings[0]);
+        moves = possibleSpecMoves(init);
         if (moves.contains(parseTile(strings[1]))) {
             Board tmp = SpecialMoves.makeASpecMove(init, goal, board);
             if (tmp == null) return false;
@@ -93,8 +93,7 @@ public class GameEngine {
         }
         return result;
     }
-    List<Pair<Integer>> possibleSpecMoves(String input){
-        Pair<Integer> tile = parseTile(input);
+    List<Pair<Integer>> possibleSpecMoves(Pair<Integer> tile){
         if (tile.x >= board.width || tile.y >= board.length ||
                 board.tiles[tile.x][tile.y].piece == null) {
             //System.out.println("Invalid tile");
@@ -115,7 +114,7 @@ public class GameEngine {
         String [][] result = printTheBoard();
         List<Pair<Integer>> posOrdMoves = possibleOrdMoves(parseTile(input));
         if (posOrdMoves == null) {return result;}
-        List<Pair<Integer>> posSpecMoves = possibleSpecMoves(input);
+        List<Pair<Integer>> posSpecMoves = possibleSpecMoves(parseTile(input));
         for (Pair<Integer> posOrdMove : posOrdMoves) {
             result[posOrdMove.x][posOrdMove.y] = "#";
         }
