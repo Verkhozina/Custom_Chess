@@ -1,29 +1,62 @@
-<main>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <complexType name="pairIntType">
-        <attribute name="x" type="int"/>
-        <attribute name="y" type="int"/>
-    </complexType>
+    <xsd:complexType name="linear-move-type">
+        <xsd:attribute name="jumping" type="xsd:boolean"/>
+        <xsd:attribute name="allColors" type="xsd:boolean"/>
+        <xsd:attribute name="limit" type="xsd:integer"/>
+    </xsd:complexType>
 
-    <complexType name="moveType">
-        <attribute name="fMove" minOccurs="0" maxOccurs="unbounded" type="string"/>
-        <attribute name="fCapture" minOccurs="0" maxOccurs="unbounded" type="string"/>
-        <attribute name="fEmptyReq" minOccurs="0" maxOccurs="unbounded" type="string"/>
-    </complexType>
+    <xsd:complexType name="diagonal-move-type">
+        <xsd:attribute name="jumping" type="xsd:boolean"/>
+        <xsd:attribute name="limit" type="xsd:integer"/>
+    </xsd:complexType>
 
-    <complexType name="pieceType">
-        <attribute name="name" type="string"/>
-        <attribute name="starts" minOccurs="1" maxOccurs="unbounded" type="pairIntType"/>
-        <attribute name="moves" minOccurs="1" maxOccurs="unbounded" type="moveType"/>
-    </complexType>
+    <xsd:complexType name="knight-move-type">
+        <xsd:attribute name="distance1" type="xsd:integer"/>
+        <xsd:attribute name="distance2" type="xsd:integer"/>
+    </xsd:complexType>
 
-    <element name="pieces">
-        <complexType>
-            <sequence>
-                <element name="piece"
-                         type="pieceType"
-                         minOccurs="0" maxOccurs="unbounded"/>
-            </sequence>
-        </complexType>
-    </element>
-</main>
+    <xsd:complexType name="special-move-type">
+        <xsd:attribute name="distanceX" type="xsd:integer"/>
+        <xsd:attribute name="distanceY" type="xsd:integer"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="start-point-type">
+        <xsd:attribute name="x" type="xsd:integer"/>
+        <xsd:attribute name="y" type="xsd:integer"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="char">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="piece-type">
+            <xsd:sequence>
+                <xsd:element name="name" type="xsd:string"/>
+                <xsd:element name="shortName" type="char"/>
+                <xsd:element name="start-point" type="start-point-type" maxOccurs="unbounded"/>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="linear-move" type="linear-move-type"/>
+                    <xsd:element name="diagonal-move" type="diagonal-move-type"/>
+                    <xsd:element name="knight-move" type="knight-move-type"/>
+                    <xsd:element name="special-move" type="special-move-type"/>
+                </xsd:choice>
+            </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="config">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="boardWidth" type="xsd:integer"/>
+                <xsd:element name="boardHeight" type="xsd:integer"/>
+                <xsd:element name="piece"
+                             type="piece-type"
+                             minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

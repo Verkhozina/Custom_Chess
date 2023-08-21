@@ -1,105 +1,55 @@
-<main>
-    <piece name="Pawn">
-        <starts x = "1" y = "0"/>
-        <starts x = "1" y = "1"/>
-        <starts x = "1" y = "2"/>
-        <starts x = "1" y = "3"/>
-        <starts x = "1" y = "4"/>
-        <starts x = "1" y = "5"/>
-        <starts x = "1" y = "6"/>
-        <starts x = "1" y = "7"/>
-        <moves fMove = "arr[0] = x + 1; arr[1] = y + 1; arr[2] = x - 1; arr[3] = " fCapture ="1" fEmptyReq ="1"/>
-        <moves fMove = "for (i = 0; i < board; i++) {arr[i] = x + i; arr[]} " fCapture ="1" fEmptyReq ="1"/>
+<pieces>
+    <piece>
+        <name>Pawn</name>
+        <shortName>P</shortName>
+        <start-point x="1" y="2"/>
+        <start-point x="2" y="2"/>
+        <start-point x="3" y="2"/>
+        <start-point x="4" y="2"/>
+        <start-point x="5" y="2"/>
+        <start-point x="6" y="2"/>
+        <start-point x="7" y="2"/>
+        <start-point x="8" y="2"/>
+        <special-move distanceX="0" distanceY="1"/>
+        <special-move distanceX="0" distanceY="2"/>
+        <special-move distanceX="1" distanceY="1"/>
+        <special-move distanceX="-1" distanceY="1"/>
     </piece>
-    <piece name="Rook">
-        <starts x="0" y="0"/>
-        <starts x="7" y="0"/>
-        <moves>
-            <movesCords x="1" y ="1"/>
-            <captureCords x="1" y ="1"/>
-            <reqEmptyCords x="1" y ="1"/>
-        </moves>
-        <moves>
-            <movesCords x="1" y ="1"/>
-            <captureCords x="1" y ="1"/>
-            <reqEmptyCords x="1" y ="1"/>
-        </moves>
-        <moves>
-            <movesCords x="1" y ="1"/>
-            <captureCords x="1" y ="1"/>
-            <reqEmptyCords x="1" y ="1"/>
-        </moves>
+    <piece>
+        <name>Rook</name>
+        <shortName>R</shortName>
+        <start-point x="1" y="1"/>
+        <start-point x="8" y="1"/>
+        <linear-move jumping="false" allColors="true" limit="100"/>
     </piece>
-    <piece name="Knight">
-        <starts x="1" y="0"/>
-        <starts x="6" y="0"/>
-        <moves>
-            <funcMove>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcMove>
-            <funcCapt>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcCapt>
-            <funcNoOc>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcNoOc>
-        </moves>
+    <piece>
+        <name>Knight</name>
+        <shortName>N</shortName>
+        <start-point x="2" y="1"/>
+        <start-point x="7" y="1"/>
+        <knight-move distance1="1" distance2="2"/>
     </piece>
-    <piece name="Bishop">
-        <starts x="1" y="0"/>
-        <starts x="6" y="0"/>
-        <moves>
-            <funcMove>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcMove>
-            <funcCapt>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcCapt>
-            <funcNoOc>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcNoOc>
-        </moves>
+    <piece>
+        <name>Bishop</name>
+        <shortName>B</shortName>
+        <start-point x="3" y="1"/>
+        <start-point x="6" y="1"/>
+        <diagonal-move jumping="false" limit="100"/>
     </piece>
-    <piece name="King">
-        <starts x="1" y="0"/>
-        <starts x="6" y="0"/>
-        <moves>
-            <funcMove>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcMove>
-            <funcCapt>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcCapt>
-            <funcNoOc>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcNoOc>
-        </moves>
+    <piece>
+        <name>Queen</name>
+        <shortName>Q</shortName>
+        <start-point x="4" y="1"/>
+        <linear-move jumping="false" allColors="true" limit="100"/>
+        <diagonal-move jumping="false" limit="100"/>
     </piece>
-    <piece name="Queen">
-        <starts x="1" y="0"/>
-        <starts x="6" y="0"/>
-        <moves>
-            <funcMove>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcMove>
-            <funcCapt>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcCapt>
-            <funcNoOc>
-                <direction>diagonal</direction>
-                <x_bounds x="0" y ="7"/>
-            </funcNoOc>
-        </moves>
+    <piece>
+        <name>King</name>
+        <shortName>K</shortName>
+        <start-point x="5" y="1"/>
+        <linear-move jumping="false" allColors="true" limit="1"/>
+        <diagonal-move jumping="false" limit="1"/>
+        <special-move distanceX="2" distanceY="0"/>
+        <special-move distanceX="-2" distanceY="0"/>
     </piece>
-</main>
+</pieces>

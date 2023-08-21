@@ -2,18 +2,15 @@ public class Tile {
     final Pair<Integer> coordinates;
     Boolean occupied;
     Piece piece;
-    Boolean pIsWhite;
-    Boolean notMoved;
+    Boolean white;
     public Tile (Pair<Integer> coordinates,
-    Boolean occupied,
-    Piece piece,
-                 Boolean pIsWhite,
-                 Boolean notMoved) {
-      this.coordinates = coordinates;
-      this.occupied = occupied;
-      this.piece = piece;
-      this.pIsWhite = pIsWhite;
-      this.notMoved = notMoved;
+                 Boolean occupied,
+                 Piece piece,
+                 Boolean white) {
+        this.coordinates = coordinates;
+        this.occupied = occupied;
+        this.piece = piece;
+        this.white = white;
     }
 
     @Override
