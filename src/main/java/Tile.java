@@ -2,7 +2,7 @@ public class Tile {
     final Pair<Integer> coordinates;
     Boolean occupied;
     Piece piece;
-    Boolean white;
+    final Boolean white;
     public Tile (Pair<Integer> coordinates,
                  Boolean occupied,
                  Piece piece,

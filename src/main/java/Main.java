@@ -29,7 +29,7 @@ public class Main {
             game = new GameEngine(config);
         }
         catch (Exception e) {
-            System.out.println("Config parsing error.");
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
@@ -73,7 +73,7 @@ public class Main {
                     default -> {
                         moveCompleted = game.makeAMove(inputStr, whiteTurn);
                         if (!moveCompleted)
-                            System.out.println("Invalid move");
+                            System.out.println("Invalid command");
                         else if (game.checkCheck())
                             System.out.println("Check! May be mate!");
                     }

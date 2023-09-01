@@ -10,10 +10,7 @@
         <start-point x="6" y="2"/>
         <start-point x="7" y="2"/>
         <start-point x="8" y="2"/>
-        <special-move distanceX="0" distanceY="1"/>
-        <special-move distanceX="0" distanceY="2"/>
-        <special-move distanceX="1" distanceY="1"/>
-        <special-move distanceX="-1" distanceY="1"/>
+        <special-move class-name="MovePawn"/>
     </piece>
     <piece>
         <name>Rook</name>
@@ -49,7 +46,6 @@
         <start-point x="5" y="1"/>
         <linear-move jumping="false" allColors="true" limit="1"/>
         <diagonal-move jumping="false" limit="1"/>
-        <special-move distanceX="2" distanceY="0"/>
-        <special-move distanceX="-2" distanceY="0"/>
+        <special-move class-name="MoveKing"/>
     </piece>
 </pieces>

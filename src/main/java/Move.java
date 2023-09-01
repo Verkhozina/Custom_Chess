@@ -1,9 +1,7 @@
-public class Move {
-    final Pair<Integer> coords;
-    final Boolean jump;
-    public Move(Pair<Integer> coords,
-                Boolean jump) {
-        this.coords = coords;
-        this.jump = jump;
-    }
+import java.util.List;
+
+public abstract class Move {
+    abstract List<Pair<Integer>> possibleMoves(Pair<Integer> init, Board board);
+    abstract boolean makeAMove(Pair<Integer> init, Pair<Integer> goal, Board board);
+    abstract boolean checkMove(Pair<Integer> init, Pair<Integer> goal, Board board);
 }

@@ -1,3 +1,4 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public class SpecialMoves {
@@ -9,7 +10,17 @@ public class SpecialMoves {
             case "King" -> {
                 return king(init, goal, board);
             }
+
         }
+//        String methodName = "method";
+//        java.lang.reflect.Method method;
+//        try {
+//            Class<?> obj = Class.forName(board.tiles[init.x][init.y].piece.name);
+//            method = obj.getClass().getMethod(methodName, Pair.class, Pair.class, Board.class);
+//            method.invoke(obj, init, goal, board);
+//        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
     private static Board pawn(Pair<Integer> init, Pair<Integer> goal, Board board) {

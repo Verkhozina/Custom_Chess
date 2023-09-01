@@ -17,8 +17,6 @@ public class ConfigParser {
         List<Pair<Integer>> startsW = new ArrayList<>();
         List<Pair<Integer>> startsB = new ArrayList<>();
         List<Move> moves = new ArrayList<>();
-        List<Move> movesSpecialW = new ArrayList<>();
-        List<Move> movesSpecialB = new ArrayList<>();
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -51,22 +49,7 @@ public class ConfigParser {
                                     limit = Integer.parseInt(reader.getAttributeValue(i));
                                 }
                             }
-                            if (allColors)
-                                for (int i = 1; i <= limit; i++) {
-                                    moves.add(new Move(new Pair<>(i,0), jumping));
-                                    moves.add(new Move(new Pair<>(-i,0), jumping));
-                                    moves.add(new Move(new Pair<>(0,i), jumping));
-                                    moves.add(new Move(new Pair<>(0,-i), jumping));
-                                }
-                            else {
-                                for (int i = 1; i <= limit; i++) {
-                                    if (i%2 == 1) continue;
-                                    moves.add(new Move(new Pair<>(i,0), jumping));
-                                    moves.add(new Move(new Pair<>(-i,0), jumping));
-                                    moves.add(new Move(new Pair<>(0,i), jumping));
-                                    moves.add(new Move(new Pair<>(0,-i), jumping));
-                                }
-                            }
+                            moves.add(new MoveLinear(jumping, allColors, limit));
                         }
                         case "diagonal-move" -> {
                             Boolean jumping = false;
@@ -78,12 +61,7 @@ public class ConfigParser {
                                     limit = Integer.parseInt(reader.getAttributeValue(i));
                                 }
                             }
-                            for (int i = 1; i <= limit; i++) {
-                                moves.add(new Move(new Pair<>(i,i), jumping));
-                                moves.add(new Move(new Pair<>(-i,i), jumping));
-                                moves.add(new Move(new Pair<>(i,-i), jumping));
-                                moves.add(new Move(new Pair<>(-i,-i), jumping));
-                            }
+                            moves.add(new MoveDiagonal(jumping, limit));
                         }
                         case "knight-move" -> {
                             int dist1 = 0;
@@ -95,40 +73,30 @@ public class ConfigParser {
                                     dist2 = Integer.parseInt(reader.getAttributeValue(i));
                                 }
                             }
-                            moves.add(new Move(new Pair<>(dist1, dist2), true));
-                            moves.add(new Move(new Pair<>(dist2, dist1), true));
-                            moves.add(new Move(new Pair<>(-dist1, dist2), true));
-                            moves.add(new Move(new Pair<>(dist1, -dist2), true));
-                            moves.add(new Move(new Pair<>(-dist1, -dist2), true));
-                            moves.add(new Move(new Pair<>(-dist2, dist1), true));
-                            moves.add(new Move(new Pair<>(dist2, -dist1), true));
-                            moves.add(new Move(new Pair<>(-dist2, -dist1), true));
+                            moves.add(new MoveKnight(dist1, dist2));
                         }
                         case "special-move" -> {
-                            int distX = 0;
-                            int distY = 0;
                             for (int i = 0; i < reader.getAttributeCount(); i++) {
-                                if (reader.getAttributeLocalName(i).equals("distanceX")) {
-                                    distX = Integer.parseInt(reader.getAttributeValue(i));
-                                } else if (reader.getAttributeLocalName(i).equals("distanceY")) {
-                                    distY = Integer.parseInt(reader.getAttributeValue(i));
+                                if (reader.getAttributeLocalName(i).equals("class-name")) {
+                                    try {
+                                        Move move = (Move)Class.forName(reader.getAttributeValue(i)).getConstructor().newInstance();
+                                        moves.add(move);
+                                    } catch (ClassNotFoundException | ClassCastException e) {
+                                        return null;
+                                    }
                                 }
                             }
-                            movesSpecialW.add(new Move(new Pair<>(distX, distY), true));
-                            movesSpecialB.add(new Move(new Pair<>(distX, -distY), true));
                         }
                         default -> {}
                     }
                 }
                 case XMLStreamConstants.END_ELEMENT -> {
                     if (reader.getLocalName().equals("piece")) {
-                        data.add(new Piece(name, shortName, startsW, true, moves, movesSpecialW));
-                        data.add(new Piece(name, shortName, startsB, false, moves, movesSpecialB));
+                        data.add(new Piece(name, shortName, startsW, true, moves));
+                        data.add(new Piece(name, shortName, startsB, false, moves));
                         startsW = new ArrayList<>();
                         startsB = new ArrayList<>();
                         moves = new ArrayList<>();
-                        movesSpecialW = new ArrayList<>();
-                        movesSpecialB = new ArrayList<>();
                     }
                 }
                 default -> {}

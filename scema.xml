@@ -17,8 +17,7 @@
     </xsd:complexType>
 
     <xsd:complexType name="special-move-type">
-        <xsd:attribute name="distanceX" type="xsd:integer"/>
-        <xsd:attribute name="distanceY" type="xsd:integer"/>
+        <xsd:attribute name="class-name" type="xsd:string"/>
     </xsd:complexType>
 
     <xsd:complexType name="start-point-type">

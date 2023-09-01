@@ -8,6 +8,7 @@ public class GameEngine {
     List<Piece> pieces;
     public GameEngine(File config) throws Exception{
         pieces = ConfigParser.parseConfig(config); //Parse config into pieces
+        if (pieces == null) throw new Exception("Parsing error");
         board = new Board(8, 8);
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board.width; j++)
@@ -21,7 +22,7 @@ public class GameEngine {
             }
         } //Arrange board
     }
-    String [][] printTheBoard(){
+    public String [][] printTheBoard(){
         String[][] boardStr = new String[8][8];
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++)
@@ -29,109 +30,50 @@ public class GameEngine {
                 else boardStr[i][j] = "0";
         return boardStr;
     }
-    boolean makeAMove(String input, Boolean whiteTurn){
+    public boolean makeAMove(String input, Boolean whiteTurn){
         String[] strings = input.split(" ");
+        if (strings.length != 2) return false;
         Pair<Integer> init = parseTile(strings[0]);
+        if (init == null) return false;
         Pair<Integer> goal = parseTile(strings[1]);
+        if (goal == null) return false;
         if (board.tiles[init.x][init.y].piece == null ||
-                whiteTurn != board.tiles[init.x][init.y].piece.white ||
-                (board.tiles[goal.x][goal.y].piece != null && whiteTurn == board.tiles[goal.x][goal.y].piece.white))
+                whiteTurn != board.tiles[init.x][init.y].piece.white)
             return false;
-        List<Pair<Integer>> moves = possibleOrdMoves(init);
-        if (moves.contains(parseTile(strings[1]))) {
-            board.tiles[goal.x][goal.y].occupied = true;
-            board.tiles[goal.x][goal.y].piece = board.tiles[init.x][init.y].piece;
-            board.tiles[goal.x][goal.y].piece.moved = true;
-            board.tiles[init.x][init.y].occupied = false;
-            board.tiles[init.x][init.y].piece = null;
+        boolean result = board.tiles[init.x][init.y].piece.makeAMove(init, goal, board);
+        if (result) {
             board.initPrev = init;
             board.goalPrev = goal;
-            return true;
-        }
-        moves = possibleSpecMoves(init);
-        if (moves.contains(parseTile(strings[1]))) {
-            Board tmp = SpecialMoves.makeASpecMove(init, goal, board);
-            if (tmp == null) return false;
-            board = tmp;
-            return true;
-        }
-        return false;
-    }
-    List<Pair<Integer>> possibleOrdMoves(Pair<Integer> tile){
-        if (tile.x >= board.width || tile.y >= board.length ||
-                board.tiles[tile.x][tile.y].piece == null) {
-            //System.out.println("Invalid tile");
-            return null;
-        }
-        Boolean white = board.tiles[tile.x][tile.y].piece.white;
-        List<Pair<Integer>> result = new ArrayList<>();
-        move:
-        for (int i = 0; i < board.tiles[tile.x][tile.y].piece.moves.size(); i++) {
-            int xMove = board.tiles[tile.x][tile.y].piece.moves.get(i).coords.x;
-            int yMove = board.tiles[tile.x][tile.y].piece.moves.get(i).coords.y;
-            if (tile.x + xMove >= board.width || tile.y + yMove >= board.length ||
-                    tile.x + xMove < 0 || tile.y + yMove < 0) continue;
-            if (board.tiles[tile.x + xMove][tile.y + yMove].piece != null &&
-                    white == board.tiles[tile.x + xMove][tile.y + yMove].piece.white) continue;
-            if (!board.tiles[tile.x][tile.y].piece.moves.get(i).jump) {
-                int ix = 0;
-                int iy = 0;
-                while (ix < xMove || iy < yMove) {
-                    if (ix < xMove) ix++;
-                    if (iy < yMove) iy++;
-                    if (!(ix < xMove || iy < yMove)) break;
-                    if (board.tiles[tile.x + ix][tile.y + iy].occupied) continue move;
-                }
-                while (ix > xMove || iy > yMove) {
-                    if (ix > xMove) ix--;
-                    if (iy > yMove) iy--;
-                    if (!(ix > xMove || iy > yMove)) break;
-                    if (board.tiles[tile.x + ix][tile.y + iy].occupied) continue move;
-                }
-            }
-            result.add(new Pair<>(tile.x + xMove, tile.y + yMove));
         }
         return result;
     }
-    List<Pair<Integer>> possibleSpecMoves(Pair<Integer> tile){
-        if (tile.x >= board.width || tile.y >= board.length ||
-                board.tiles[tile.x][tile.y].piece == null) {
-            //System.out.println("Invalid tile");
-            return null;
-        }
-        List<Pair<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < board.tiles[tile.x][tile.y].piece.movesSpecial.size(); i++) {
-            int xMove = board.tiles[tile.x][tile.y].piece.movesSpecial.get(i).coords.x;
-            int yMove = board.tiles[tile.x][tile.y].piece.movesSpecial.get(i).coords.y;
-            if (tile.x + xMove >= board.width || tile.y + yMove >= board.length ||
-                    tile.x + xMove < 0 || tile.y + yMove < 0)
-                continue;
-            result.add(new Pair<>(tile.x + xMove, tile.y + yMove));
-        }
-        return result;
+    private List<Pair<Integer>> possibleMoves(Pair<Integer> init){
+        if (board.tiles[init.x][init.y].occupied)
+            return board.tiles[init.x][init.y].piece.possibleMoves(init, board);
+        else return new ArrayList<>();
     }
-    String [][] printPossibleMoves(String input) {
+    public String [][] printPossibleMoves(String input) {
         String [][] result = printTheBoard();
-        List<Pair<Integer>> posOrdMoves = possibleOrdMoves(parseTile(input));
-        if (posOrdMoves == null) {return result;}
-        List<Pair<Integer>> posSpecMoves = possibleSpecMoves(parseTile(input));
-        for (Pair<Integer> posOrdMove : posOrdMoves) {
-            result[posOrdMove.x][posOrdMove.y] = "#";
-        }
-        for (Pair<Integer> posSpecMove : posSpecMoves) {
-            result[posSpecMove.x][posSpecMove.y] = "#";
+        Pair<Integer> parsed = parseTile(input);
+        if (parsed == null) return result;
+        List<Pair<Integer>> posMoves = possibleMoves(parseTile(input));
+        for (Pair<Integer> posMove : posMoves) {
+            result[posMove.x][posMove.y] = "#";
         }
         return result;
     }
-    private static Pair<Integer> parseTile(String tile){
+    private Pair<Integer> parseTile(String tile){
         if (tile == null) return null;
         char ch = tile.charAt(0);
         int x = ch - 'a';
-        int y = Character.getNumericValue(tile.charAt(1) - 1);
+        int y;
+        try {y = Character.getNumericValue(tile.charAt(1) - 1);}
+        catch (Exception e) {return null;}
+        if (!(x < board.width && y < board.length && x > -1 && y > -1)) return null;
         return new Pair<>(x, y);
     }
     public boolean checkCheck () {
-        List<Pair<Integer>> moves = possibleOrdMoves(board.goalPrev);
+        List<Pair<Integer>> moves = possibleMoves(board.goalPrev);
         Pair<Integer> prevCords = new Pair<>(board.goalPrev.x, board.goalPrev.y);
         Pair<Integer> kingCords = moves.stream().filter(o -> (
                 board.tiles[o.x][o.y].piece != null && Objects.equals(board.tiles[o.x][o.y].piece.name, "King") &&
