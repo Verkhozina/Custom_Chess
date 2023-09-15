@@ -1,4 +1,6 @@
 <pieces>
+    <board-width>9</board-width>
+    <board-length>8</board-length>
     <piece>
         <name>Pawn</name>
         <shortName>P</shortName>

@@ -7,7 +7,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 public class ConfigParser {
-    static List<Piece> parseConfig(File config) throws Exception {
+    static List<Piece> parseConfig(File config, Pair<Integer> boardSize) throws Exception {
         InputStream stream = new FileInputStream(config);
         List<Piece> data = new ArrayList<>();
         XMLInputFactory streamFactory = XMLInputFactory.newInstance();
@@ -22,6 +22,14 @@ public class ConfigParser {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT -> {
                     switch (reader.getLocalName()) {
+                        case "board-width" -> {
+                            reader.next();
+                            boardSize.x = Integer.parseInt(reader.getText());
+                        }
+                        case "board-length" -> {
+                            reader.next();
+                            boardSize.y = Integer.parseInt(reader.getText());
+                        }
                         case "name" -> {
                             reader.next();
                             name = reader.getText();
@@ -37,7 +45,7 @@ public class ConfigParser {
                                     8-Integer.parseInt(reader.getAttributeValue(1))));
                         }
                         case "linear-move" -> {
-                            Boolean jumping = false;
+                            boolean jumping = false;
                             boolean allColors = false;
                             int limit = 0;
                             for (int i = 0; i < reader.getAttributeCount(); i++) {
@@ -52,7 +60,7 @@ public class ConfigParser {
                             moves.add(new MoveLinear(jumping, allColors, limit));
                         }
                         case "diagonal-move" -> {
-                            Boolean jumping = false;
+                            boolean jumping = false;
                             int limit = 0;
                             for (int i = 0; i < reader.getAttributeCount(); i++) {
                                 if (reader.getAttributeLocalName(i).equals("jumping")) {
@@ -92,8 +100,8 @@ public class ConfigParser {
                 }
                 case XMLStreamConstants.END_ELEMENT -> {
                     if (reader.getLocalName().equals("piece")) {
-                        data.add(new Piece(name, shortName, startsW, true, moves));
-                        data.add(new Piece(name, shortName, startsB, false, moves));
+                        data.add(new Piece(name, "w" + shortName, startsW, true, moves));
+                        data.add(new Piece(name, "b" + shortName, startsB, false, moves));
                         startsW = new ArrayList<>();
                         startsB = new ArrayList<>();
                         moves = new ArrayList<>();

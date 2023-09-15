@@ -4,6 +4,10 @@ class Pair<T> {
         this.x = x;
         this.y = y;
     }
+    Pair (Pair<T> pair) {
+        this.x = pair.x;
+        this.y = pair.y;
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

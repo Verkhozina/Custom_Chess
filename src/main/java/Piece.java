@@ -22,7 +22,6 @@ public class Piece {
         }
         return posMoves;
     }
-
     public Piece (String name, String shortName, List<Pair<Integer>> starts, Boolean white, List<Move> moves) {
         this.name = name;
         this.shortName = shortName;

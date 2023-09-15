@@ -46,9 +46,8 @@ public class Main {
                 switch (inputStr) {
                     case "board" -> {
                         String [][] boardStr = game.printTheBoard();
-                        for (int j = 7; j >= 0; j--) {
-                            for (int i = 0; i < 8; i++)
-                                System.out.print(boardStr[i][j] + " ");
+                        for (int j = boardStr[0].length - 1; j >= 0; j--) {
+                            for (String[] strings : boardStr) System.out.print(strings[j] + " ");
                             System.out.println();
                         }
                     }
@@ -56,9 +55,8 @@ public class Main {
                         System.out.print("Enter a tile to see possible moves: ");
                         inputStr = scanner.nextLine();
                         String [][] posMovesStr = game.printPossibleMoves(inputStr);
-                        for (int j = 7; j >= 0; j--) {
-                            for (int i = 0; i < 8; i++)
-                                System.out.print(posMovesStr[i][j] + " ");
+                        for (int j = posMovesStr[0].length - 1; j >= 0; j--) {
+                            for (String[] strings : posMovesStr) System.out.print(strings[j] + " ");
                             System.out.println();
                         }
                     }
@@ -74,8 +72,6 @@ public class Main {
                         moveCompleted = game.makeAMove(inputStr, whiteTurn);
                         if (!moveCompleted)
                             System.out.println("Invalid command");
-                        else if (game.checkCheck())
-                            System.out.println("Check! May be mate!");
                     }
                 }
             }

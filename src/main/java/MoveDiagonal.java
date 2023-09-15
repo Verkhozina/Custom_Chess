@@ -6,22 +6,22 @@ public class MoveDiagonal extends Move {
     final Integer limit; //USE LIMIT IN CODE
     List<Pair<Integer>> possibleMoves(Pair<Integer> init, Board board) {
         List<Pair<Integer>> moves = new ArrayList<>();
-        for (int j = 1; init.x + j < board.width && init.y + j < board.length && j < limit; j++) {
+        for (int j = 1; init.x + j < board.width && init.y + j < board.length && j <= limit; j++) {
             Pair<Integer> move = new Pair<>(init.x + j, init.y + j);
             if (checkMove(init, move, board))
                 moves.add(move);
         }
-        for (int j = 1; init.x + j < board.width && init.y - j > -1 && j < limit; j++) {
+        for (int j = 1; init.x + j < board.width && init.y - j > -1 && j <= limit; j++) {
             Pair<Integer> move = new Pair<>(init.x + j, init.y - j);
             if (checkMove(init, move, board))
                 moves.add(move);
         }
-        for (int j = 1; init.x - j > -1 && init.y + j < board.length && j < limit; j++) {
+        for (int j = 1; init.x - j > -1 && init.y + j < board.length && j <= limit; j++) {
             Pair<Integer> move = new Pair<>(init.x - j, init.y + j);
             if (checkMove(init, move, board))
                 moves.add(move);
         }
-        for (int j = 1; init.x - j > -1 && init.y - j > -1 && j < limit; j++) {
+        for (int j = 1; init.x - j > -1 && init.y - j > -1 && j <= limit; j++) {
             Pair<Integer> move = new Pair<>(init.x - j, init.y - j);
             if (checkMove(init, move, board))
                 moves.add(move);
@@ -45,12 +45,20 @@ public class MoveDiagonal extends Move {
             return false;
         if (Math.abs(goal.x - init.x) == Math.abs(goal.y - init.y)) {
             if (!jump) {
-                for (int i = 1; init.x + i < goal.x; i++) {
+                for (int i = 1; init.x + i < goal.x && init.y + i < goal.y; i++) {
                     if (board.tiles[init.x + i][init.y + i].occupied)
                         return false;
                 }
-                for (int i = -1; init.x + i > goal.x; i--) {
-                    if (board.tiles[init.x + i][init.y + i].occupied)
+                for (int i = 1; init.x + i < goal.x && init.y - i > goal.y; i++) {
+                    if (board.tiles[init.x + i][init.y - i].occupied)
+                        return false;
+                }
+                for (int i = 1; init.x - i > goal.x && init.y + i < goal.y; i++) {
+                    if (board.tiles[init.x - i][init.y + i].occupied)
+                        return false;
+                }
+                for (int i = 1; init.x - i > goal.x && init.y - i > goal.y; i++) {
+                    if (board.tiles[init.x - i][init.y - i].occupied)
                         return false;
                 }
             }

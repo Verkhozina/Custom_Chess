@@ -49,8 +49,8 @@
     <xsd:element name="config">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="boardWidth" type="xsd:integer"/>
-                <xsd:element name="boardHeight" type="xsd:integer"/>
+                <xsd:element name="board-width" type="xsd:integer"/>
+                <xsd:element name="board-length" type="xsd:integer"/>
                 <xsd:element name="piece"
                              type="piece-type"
                              minOccurs="0" maxOccurs="unbounded"/>

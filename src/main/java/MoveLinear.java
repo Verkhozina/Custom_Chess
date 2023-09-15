@@ -29,7 +29,6 @@ public class MoveLinear extends Move {
         }
         return moves;
     }
-
     boolean makeAMove(Pair<Integer> init, Pair<Integer> goal, Board board) {
         if (checkMove(init, goal, board)) {
             board.tiles[goal.x][goal.y].piece = board.tiles[init.x][init.y].piece;

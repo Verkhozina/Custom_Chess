@@ -12,6 +12,13 @@ public class Tile {
         this.piece = piece;
         this.white = white;
     }
+    public Tile (Tile tile) {
+        this.coordinates = new Pair<>(tile.coordinates);
+        this.occupied = tile.occupied;
+        if (tile.piece != null)
+            this.piece = new Piece(tile.piece, tile.piece.white);
+        this.white = tile.white;
+    }
 
     @Override
     public String toString() {
